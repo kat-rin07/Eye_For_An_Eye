@@ -6,23 +6,32 @@ pygame.init()
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("My RPG Game")
-
-# Colors
-BLUE = (0, 0, 255)
-WHITE = (255, 255, 255)
+pygame.display.set_caption("An Eye For An Eye")
 
 # Game Clock (controls how fast the game runs)
-clock = pygame.time.Clock()
+
+clock = pygame.time.Clock() #because our character moves through time 0.o
+# Colors
+BLUE = (0, 0, 180)
+WHITE = (255, 255, 255)
+
+
+
 
 
 def main():
     running = True
 
+    player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)  # mark to note later
+    dt = 0
+
+    # get_width takes the width of the screen and divides by 2 same with height this helps us put the player in the middle
+
     # 2. The Game Loop
     while running:
         # Check for events (clicks, key presses)
         for event in pygame.event.get():
+            #pygame.QUIT even means that the user clicked the 'X' to close the window
             if event.type == pygame.QUIT:
                 running = False
 
@@ -32,12 +41,28 @@ def main():
         screen.fill(BLUE)  # Fill the background
 
         # (This is where you'll draw your player and UI later)
+        pygame.draw.circle(screen, "#ffffff", player_pos, 40)
+
+        keys = pygame.key.get_pressed() #defines key as a button to press
+
+        if keys[pygame.K_UP]: #uses pygame logic to define the up arrow key
+            player_pos.y -= 300 * dt
+        if keys[pygame.K_DOWN]:
+            player_pos.y += 300 * dt
+
+        if keys[pygame.K_LEFT]:
+            player_pos.x -= 300 * dt
+        if keys[pygame.K_RIGHT]:
+            player_pos.x += 300 * dt
 
         pygame.display.flip()  # Update the screen
 
-        clock.tick(60)  # Limit to 60 frames per second
+        #set the clock stuff/delta time in seconds since last frame
+        #used for framerate independent physics
+        dt = clock.tick(60) / 1000 # Limit to 60 frames per second
 
     pygame.quit()
+
     sys.exit()
 
 
