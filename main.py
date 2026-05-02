@@ -3,6 +3,7 @@ import sys
 from scripts.player import Pip
 from scripts.settings import WIDTH
 from scripts.settings import HEIGHT
+import os
 
 # 1. Setup - This happens once
 pygame.init()
@@ -22,12 +23,13 @@ WHITE = (255, 255, 255)
 
 
 def main():
-
+    print(f"Current Directory: {os.getcwd()}")
+    print(f"Files in images folder: {os.listdir('assets/images')}")
 
     running = True
 
     all_sprites = pygame.sprite.Group()
-    player = Pip((WIDTH/2, HEIGHT/2))
+    player = Pip((SCREEN_WIDTH/2,SCREEN_HEIGHT/2))
     all_sprites.add(player)
 
     clock = pygame.time.Clock()  # because our character moves through time 0.o
@@ -59,19 +61,19 @@ def main():
         all_sprites.draw(screen)
 
         # (This is where you'll draw your player and UI later)
-        pygame.draw.circle(screen, "#ffffff", player_pos, 40)
+        #pygame.draw.circle(screen, "#ffffff", player_pos, 40)
 
         keys = pygame.key.get_pressed() #defines key as a button to press
 
-        if keys[pygame.K_UP]: #uses pygame logic to define the up arrow key
-            player_pos.y -= 300 * dt
-        if keys[pygame.K_DOWN]:
-            player_pos.y += 300 * dt
+        #if keys[pygame.K_UP]: #uses pygame logic to define the up arrow key
+        #     player_pos.y -= 300 * dt
+        #if keys[pygame.K_DOWN]:
+        #    player_pos.y += 300 * dt
 
-        if keys[pygame.K_LEFT]:
-            player_pos.x -= 300 * dt
-        if keys[pygame.K_RIGHT]:
-            player_pos.x += 300 * dt
+        #if keys[pygame.K_LEFT]:
+        #    player_pos.x -= 300 * dt
+        #if keys[pygame.K_RIGHT]:
+        #    player_pos.x += 300 * dt
 
         pygame.display.flip()  # Update the screen
 
