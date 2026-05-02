@@ -1,8 +1,12 @@
 import pygame
 import sys
+from scripts.player import Pip
+from scripts.settings import WIDTH
+from scripts.settings import HEIGHT
 
 # 1. Setup - This happens once
 pygame.init()
+
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -10,7 +14,6 @@ pygame.display.set_caption("An Eye For An Eye")
 
 # Game Clock (controls how fast the game runs)
 
-clock = pygame.time.Clock() #because our character moves through time 0.o
 # Colors
 BLUE = (0, 0, 180)
 WHITE = (255, 255, 255)
@@ -18,17 +21,27 @@ WHITE = (255, 255, 255)
 
 
 
-
 def main():
+
+
     running = True
 
+    all_sprites = pygame.sprite.Group()
+    player = Pip((WIDTH/2, HEIGHT/2))
+    all_sprites.add(player)
+
+    clock = pygame.time.Clock()  # because our character moves through time 0.o
+
     player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)  # mark to note later
-    dt = 0
 
     # get_width takes the width of the screen and divides by 2 same with height this helps us put the player in the middle
 
     # 2. The Game Loop
     while running:
+        # set the clock stuff/delta time in seconds since last frame
+        # used for framerate independent physics
+        dt = clock.tick(60) / 1000  # Limit to 60 frames per second
+
         # Check for events (clicks, key presses)
         for event in pygame.event.get():
             #pygame.QUIT even means that the user clicked the 'X' to close the window
@@ -37,8 +50,13 @@ def main():
 
         # 3. Logic - This is where you'll update player positions later
 
+
         # 4. Drawing
         screen.fill(BLUE)  # Fill the background
+
+        # update
+        all_sprites.update()
+        all_sprites.draw(screen)
 
         # (This is where you'll draw your player and UI later)
         pygame.draw.circle(screen, "#ffffff", player_pos, 40)
@@ -57,9 +75,6 @@ def main():
 
         pygame.display.flip()  # Update the screen
 
-        #set the clock stuff/delta time in seconds since last frame
-        #used for framerate independent physics
-        dt = clock.tick(60) / 1000 # Limit to 60 frames per second
 
     pygame.quit()
 
